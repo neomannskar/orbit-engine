@@ -8,4 +8,10 @@
     #endif
 #else
     #define ORBIT_API __attribute__((visibility("default")))
+
+    #include <Foundation/Foundation.hpp>
+    #include <Metal/Metal.hpp>
+    #include <QuartzCore/QuartzCore.hpp>
+    #include <AppKit/AppKit.hpp>
+    #include <MetalKit/MetalKit.hpp>
 #endif
