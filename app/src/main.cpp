@@ -1,23 +1,23 @@
 #include "Orbit/Core.hpp"
 #include "Orbit/Renderer.hpp"
 
+#include <iostream>
+
 #define NS_PRIVATE_IMPLEMENTATION
 #define CA_PRIVATE_IMPLEMENTATION
 #define MTL_PRIVATE_IMPLEMENTATION
 #define MTK_PRIVATE_IMPLEMENTATION
 
 class Application : public NS::ApplicationDelegate {
-private:
-    /* NS::SharedPtr<MTL::Device> device*/
-    NS::Window *m_pWindow;
-    MTK::View *m_pView;
-    MTL::Device *m_pDevice;
-    Orbit::Renderer *m_pRenderer;
-
 public:
     ~Application();
 
     virtual void applicationDidFinishLaunching(NS::Notification *pNotification) override;
+private:
+    NS::Window *m_pWindow;
+    MTK::View *m_pView;
+    MTL::Device *m_pDevice;
+    Orbit::Renderer *m_pRenderer;
 };
 
 Application::~Application() {
@@ -35,7 +35,7 @@ void Application::applicationDidFinishLaunching(NS::Notification *pNotification)
 
     m_pWindow = NS::Window::alloc()->init(
         frame,
-        NS::WindowStyleMaskTitled | NS::WindowStyleMaskClosable | NS::WindowStyleMaskResizable,
+        NS::WindowStyleMaskTitled | NS::WindowStyleMaskClosable | NS::WindowStyleMaskResizable | NS::WindowStyleMaskMiniaturizable,
         NS::BackingStoreBuffered,
         false
     );
@@ -55,15 +55,15 @@ void Application::applicationDidFinishLaunching(NS::Notification *pNotification)
     m_pWindow->makeKeyAndOrderFront(nullptr);
 
     NS::Application *pApp = reinterpret_cast<NS::Application *>(pNotification->object());
-    // pApp->setActivationPolicy(NS::ApplicationActivationPolicyRegular);
+    
+    pApp->setActivationPolicy(NS::ActivationPolicyRegular);
     pApp->activateIgnoringOtherApps(true);
 }
-
-#include <iostream>
 
 int main() {
     std::cout << "Starting..." << std::endl;
     NS::AutoreleasePool *pPool = NS::AutoreleasePool::alloc()->init();
+    
     Application delegate;
     NS::Application *pSharedApp = NS::Application::sharedApplication();
     pSharedApp->setDelegate(&delegate);
